@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Blood Bank</h3>
+
+            </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="#">Dashboard</a>
+                    <a href="#">Donate Blood</a>
+                    <a href="#">Recieve Blood</a>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">History</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+
+                        <li><a href="#">Donate History</a></li>
+                        <li><a href="#">Recieve History</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Chat History</a>
+                </li>
+            </ul>
+
+            <ul class="list-unstyled CTAs">
+                <li><a href="#" class="article">LogOut</a></li>
+            </ul>
+        </nav>
+
+        <!-- Page Content Holder -->
+        <div id="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav class="navbar">
+                        <div class="container-fluid container">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" style="border-color:black" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar" style="background-color: black"></span>
+                                    <span class="icon-bar" style="background-color: black"></span>
+                                    <span class="icon-bar" style="background-color: black"></span>
+                                </button>
+                                <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                                    <i class="glyphicon glyphicon-align-left"></i>
+                                </button>
+                            </div>
+
+                            <div>
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="dropdown open">
+                                        <button role="button" type="button" class="btn btn-primary btn-lg btn-block" data-toggle="dropdown" aria-expanded="false">Welcome Rafi <span class="caret"></span></button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#">Profile</a></li>
+                                                <li><a href="#">Change Password</a></li>
+                                            </ul>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div class="col-md-12 body-content">
+                    <div class="container">
+                        @RenderBody()
+                    </div>
+                    
+                </div>
+            </div>
+            
+
+            
+        </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        <script>
+            $(document).ready(function () {
+                $("#sidebarCollapse").on("click", function () {
+                    $("#sidebar").toggleClass("active");
+                    $(this).toggleClass("active");
+                });
+            });
+        </script>
+        @RenderSection("scripts", required: false)
+    </div>
+</body>
+</html>

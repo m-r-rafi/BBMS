@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{64AD1A2B-93CC-41AC-8575-FF8AD2E8A7E6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DAL</RootNamespace>
+    <AssemblyName>DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BBMSDbContext.cs" />
+    <Compile Include="DataAccessFactory.cs" />
+    <Compile Include="Entities\BloodBank.cs" />
+    <Compile Include="Entities\Chat.cs" />
+    <Compile Include="Entities\DonateBlood.cs" />
+    <Compile Include="Entities\RecieveBlood.cs" />
+    <Compile Include="Entities\StatusSetting.cs" />
+    <Compile Include="Entities\Token.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\UserType.cs" />
+    <Compile Include="Interfaces\IAuth.cs" />
+    <Compile Include="Interfaces\IDonateBloodRepo.cs" />
+    <Compile Include="Interfaces\IRecieveBloodRepo.cs" />
+    <Compile Include="Interfaces\IRepo.cs" />
+    <Compile Include="Interfaces\IUserRepo.cs" />
+    <Compile Include="Migrations\202304101711068_UserTypeAdded.cs" />
+    <Compile Include="Migrations\202304101711068_UserTypeAdded.designer.cs">
+      <DependentUpon>202304101711068_UserTypeAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304101725363_BloodBankAdded.cs" />
+    <Compile Include="Migrations\202304101725363_BloodBankAdded.designer.cs">
+      <DependentUpon>202304101725363_BloodBankAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304101728503_StatusSettingAdded.cs" />
+    <Compile Include="Migrations\202304101728503_StatusSettingAdded.designer.cs">
+      <DependentUpon>202304101728503_StatusSettingAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304101735196_UserAdded.cs" />
+    <Compile Include="Migrations\202304101735196_UserAdded.designer.cs">
+      <DependentUpon>202304101735196_UserAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304101738205_RecieveBloodAdded.cs" />
+    <Compile Include="Migrations\202304101738205_RecieveBloodAdded.designer.cs">
+      <DependentUpon>202304101738205_RecieveBloodAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304101740572_DonateBloodAdded.cs" />
+    <Compile Include="Migrations\202304101740572_DonateBloodAdded.designer.cs">
+      <DependentUpon>202304101740572_DonateBloodAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304101743176_ChatAdded.cs" />
+    <Compile Include="Migrations\202304101743176_ChatAdded.designer.cs">
+      <DependentUpon>202304101743176_ChatAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304101749121_UserTypeUserRelation.cs" />
+    <Compile Include="Migrations\202304101749121_UserTypeUserRelation.designer.cs">
+      <DependentUpon>202304101749121_UserTypeUserRelation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304131359291_DonateBloodUserRelationAdded.cs" />
+    <Compile Include="Migrations\202304131359291_DonateBloodUserRelationAdded.designer.cs">
+      <DependentUpon>202304131359291_DonateBloodUserRelationAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304131402475_RecieveBloodUserRelationAdded.cs" />
+    <Compile Include="Migrations\202304131402475_RecieveBloodUserRelationAdded.designer.cs">
+      <DependentUpon>202304131402475_RecieveBloodUserRelationAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304131405570_BloodbankDonatebloodRelationAdded.cs" />
+    <Compile Include="Migrations\202304131405570_BloodbankDonatebloodRelationAdded.designer.cs">
+      <DependentUpon>202304131405570_BloodbankDonatebloodRelationAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304131408283_BloodbankRecievebloodRelationAdded.cs" />
+    <Compile Include="Migrations\202304131408283_BloodbankRecievebloodRelationAdded.designer.cs">
+      <DependentUpon>202304131408283_BloodbankRecievebloodRelationAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304131411599_DonateBloodStatusRelationAdded.cs" />
+    <Compile Include="Migrations\202304131411599_DonateBloodStatusRelationAdded.designer.cs">
+      <DependentUpon>202304131411599_DonateBloodStatusRelationAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304131421277_RecieveBloodStatusRelationAdded.cs" />
+    <Compile Include="Migrations\202304131421277_RecieveBloodStatusRelationAdded.designer.cs">
+      <DependentUpon>202304131421277_RecieveBloodStatusRelationAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304131425570_ChatUserRelationAdded.cs" />
+    <Compile Include="Migrations\202304131425570_ChatUserRelationAdded.designer.cs">
+      <DependentUpon>202304131425570_ChatUserRelationAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304131438053_removeFromRelationChat.cs" />
+    <Compile Include="Migrations\202304131438053_removeFromRelationChat.designer.cs">
+      <DependentUpon>202304131438053_removeFromRelationChat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304151135302_DonateBloodUpdated.cs" />
+    <Compile Include="Migrations\202304151135302_DonateBloodUpdated.designer.cs">
+      <DependentUpon>202304151135302_DonateBloodUpdated.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304200734291_TokenAdded.cs" />
+    <Compile Include="Migrations\202304200734291_TokenAdded.designer.cs">
+      <DependentUpon>202304200734291_TokenAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304200809462_TokenUpdated.cs" />
+    <Compile Include="Migrations\202304200809462_TokenUpdated.designer.cs">
+      <DependentUpon>202304200809462_TokenUpdated.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repo\BaseRepo.cs" />
+    <Compile Include="Repo\BloodBankRepo.cs" />
+    <Compile Include="Repo\ChatRepo.cs" />
+    <Compile Include="Repo\DonateBloodRepo.cs" />
+    <Compile Include="Repo\RecieveBloodRepo.cs" />
+    <Compile Include="Repo\TokenRepo.cs" />
+    <Compile Include="Repo\UserRepo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202304101711068_UserTypeAdded.resx">
+      <DependentUpon>202304101711068_UserTypeAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304101725363_BloodBankAdded.resx">
+      <DependentUpon>202304101725363_BloodBankAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304101728503_StatusSettingAdded.resx">
+      <DependentUpon>202304101728503_StatusSettingAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304101735196_UserAdded.resx">
+      <DependentUpon>202304101735196_UserAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304101738205_RecieveBloodAdded.resx">
+      <DependentUpon>202304101738205_RecieveBloodAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304101740572_DonateBloodAdded.resx">
+      <DependentUpon>202304101740572_DonateBloodAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304101743176_ChatAdded.resx">
+      <DependentUpon>202304101743176_ChatAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304101749121_UserTypeUserRelation.resx">
+      <DependentUpon>202304101749121_UserTypeUserRelation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304131359291_DonateBloodUserRelationAdded.resx">
+      <DependentUpon>202304131359291_DonateBloodUserRelationAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304131402475_RecieveBloodUserRelationAdded.resx">
+      <DependentUpon>202304131402475_RecieveBloodUserRelationAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304131405570_BloodbankDonatebloodRelationAdded.resx">
+      <DependentUpon>202304131405570_BloodbankDonatebloodRelationAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304131408283_BloodbankRecievebloodRelationAdded.resx">
+      <DependentUpon>202304131408283_BloodbankRecievebloodRelationAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304131411599_DonateBloodStatusRelationAdded.resx">
+      <DependentUpon>202304131411599_DonateBloodStatusRelationAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304131421277_RecieveBloodStatusRelationAdded.resx">
+      <DependentUpon>202304131421277_RecieveBloodStatusRelationAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304131425570_ChatUserRelationAdded.resx">
+      <DependentUpon>202304131425570_ChatUserRelationAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304131438053_removeFromRelationChat.resx">
+      <DependentUpon>202304131438053_removeFromRelationChat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304151135302_DonateBloodUpdated.resx">
+      <DependentUpon>202304151135302_DonateBloodUpdated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304200734291_TokenAdded.resx">
+      <DependentUpon>202304200734291_TokenAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304200809462_TokenUpdated.resx">
+      <DependentUpon>202304200809462_TokenUpdated.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+</Project>

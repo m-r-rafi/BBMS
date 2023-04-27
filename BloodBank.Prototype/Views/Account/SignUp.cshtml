@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="well bs-component">
+            <form class="form-horizontal" method="post">
+                <fieldset>
+                    <legend>SignUp</legend>
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-lg-2 control-label">User Name</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" name="UserName" placeholder="User Name">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-lg-2 control-label">First Name</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" name="FirstName" placeholder="First Name">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-lg-2 control-label">Last Name</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" name="LastName" placeholder="Last Name">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-lg-2 control-label">Date Of Birth</label>
+                        <div class="col-lg-10">
+                            <input type="date" class="form-control" name="Dob">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Gender</label>
+                        <div class="col-lg-10">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="Gender" value="Male" checked="">
+                                    Male
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="Gender" value="Female">
+                                    Female
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-lg-2 control-label">House & RoadNo:</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" name="FirstName" placeholder="Enter your House,Road,Block">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-lg-2 control-label">Area:</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" name="FirstName" placeholder="Enter Your Area,District">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" name="Email" placeholder="Email">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+                        <div class="col-lg-10">
+                            <input type="password" class="form-control" name="Password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="col-lg-2 control-label">Confirm Password</label>
+                        <div class="col-lg-10">
+                            <input type="password" class="form-control" name="ConfirmPassword" placeholder="Confirm Password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Have You Donated Before?</label>
+                        <div class="col-lg-10 donate-toggler">
+                            <div class="radio">
+                                <label>
+                                    <input id="noCheck" onclick="yesnoCheck();" type="radio" name="Yes" value="No" checked>
+                                    No
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input id="yesCheck" onclick="yesnoCheck();" type="radio" name="Yes" value="Yes">
+                                    Yes
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div id="ifYes" class="donate-div" style="display:none">
+                            <label for="inputEmail" class="col-lg-2 control-label">Last Donated On:</label>
+                            <div class="col-lg-10">
+                                <input type="date" class="form-control" name="LDO">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10 col-lg-offset-2">
+
+                            <button type="submit" class="btn btn-primary">SignUp</button><br />
+                            <span>Already Have an account? </span>
+                            <a href="/Account/LogIn">LogIn</a>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+@section scripts {
+
+    <script>
+
+        function yesnoCheck() {
+            if (document.getElementById('yesCheck').checked) {
+                document.getElementById('ifYes').style.display = 'block';
+            }
+            else document.getElementById('ifYes').style.display = 'none';
+
+        }
+
+    </script>
+
+}
+
