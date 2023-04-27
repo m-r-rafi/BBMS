@@ -27,5 +27,17 @@ namespace DAL
         {
             return new UserRepo();
         }
+        public static IDonateBloodRepo<DonateBlood, int, bool> DonateBloodData()
+        {
+            return new DonateBloodRepo();
+        }
+        public static IRecieveBloodRepo<RecieveBlood, int, bool> RecieveBloodData()
+        {
+            return new RecieveBloodRepo();
+        }
+        public static IRepo<Chat, int, bool> ChatData()
+        {
+            return new ChatRepo();
+        }
     }
 }
