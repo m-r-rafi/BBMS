@@ -4,128 +4,146 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
+<div class="row" ng-app="my-app">
     <div class="col-md-6 col-md-offset-3">
         <div class="well bs-component">
-            <form class="form-horizontal" method="post">
-                <fieldset>
-                    <legend>SignUp</legend>
-                    <div class="form-group">
-                        <label for="inputEmail" class="col-lg-2 control-label">User Name</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" name="UserName" placeholder="User Name">
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputEmail" class="col-lg-2 control-label">First Name</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" name="FirstName" placeholder="First Name">
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputEmail" class="col-lg-2 control-label">Last Name</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" name="LastName" placeholder="Last Name">
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputEmail" class="col-lg-2 control-label">Date Of Birth</label>
-                        <div class="col-lg-10">
-                            <input type="date" class="form-control" name="Dob">
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">Gender</label>
-                        <div class="col-lg-10">
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="Gender" value="Male" checked="">
-                                    Male
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="Gender" value="Female">
-                                    Female
-                                </label>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputEmail" class="col-lg-2 control-label">House & RoadNo:</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" name="FirstName" placeholder="Enter your House,Road,Block">
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputEmail" class="col-lg-2 control-label">Area:</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" name="FirstName" placeholder="Enter Your Area,District">
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputEmail" class="col-lg-2 control-label">Email</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" name="Email" placeholder="Email">
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword" class="col-lg-2 control-label">Password</label>
-                        <div class="col-lg-10">
-                            <input type="password" class="form-control" name="Password" placeholder="Password">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword" class="col-lg-2 control-label">Confirm Password</label>
-                        <div class="col-lg-10">
-                            <input type="password" class="form-control" name="ConfirmPassword" placeholder="Confirm Password">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">Have You Donated Before?</label>
-                        <div class="col-lg-10 donate-toggler">
-                            <div class="radio">
-                                <label>
-                                    <input id="noCheck" onclick="yesnoCheck();" type="radio" name="Yes" value="No" checked>
-                                    No
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input id="yesCheck" onclick="yesnoCheck();" type="radio" name="Yes" value="Yes">
-                                    Yes
-                                </label>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div id="ifYes" class="donate-div" style="display:none">
-                            <label for="inputEmail" class="col-lg-2 control-label">Last Donated On:</label>
-                            <div class="col-lg-10">
-                                <input type="date" class="form-control" name="LDO">
+            <div ng-controller="signUpCtrl">
+                <form class="form-horizontal" ng-submit="signUp()" method="post">
+                    <fieldset>
+                        <legend>SignUp</legend>
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-lg-4">User Name:</label>
+                            <div class="col-lg-8">
+                                <input type="text" class="form-control" ng-model="l.UserName" placeholder="User Name">
 
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-10 col-lg-offset-2">
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-lg-4">First Name:</label>
+                            <div class="col-lg-8">
+                                <input type="text" class="form-control" ng-model="l.FirstName" placeholder="First Name">
 
-                            <button type="submit" class="btn btn-primary">SignUp</button><br />
-                            <span>Already Have an account? </span>
-                            <a href="/Account/LogIn">LogIn</a>
+                            </div>
                         </div>
-                    </div>
-                </fieldset>
-            </form>
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-lg-4">Last Name:</label>
+                            <div class="col-lg-8">
+                                <input type="text" class="form-control" ng-model="l.LastName" placeholder="Last Name">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-lg-4">Email:</label>
+                            <div class="col-lg-8">
+                                <input type="text" class="form-control" ng-model="l.Email" placeholder="Email">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-lg-4 ">Date Of Birth:</label>
+                            <div class="col-lg-8">
+                                <input type="date" class="form-control" ng-model="l.Dob">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4">Gender:</label>
+                            <div class="col-lg-8">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" ng-model="l.Gender" value="Male" checked="">
+                                        Male
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" ng-model="l.Gender" value="Female">
+                                        Female
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-lg-4 ">House & RoadNo:</label>
+                            <div class="col-lg-8">
+                                <input type="text" class="form-control" ng-model="l.Address1" placeholder="Enter your House,Road,Block">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-lg-4">Area:</label>
+                            <div class="col-lg-8">
+                                <input type="text" class="form-control" ng-model="l.Address2" placeholder="Enter Your Area,District">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword" class="col-lg-4">Password:</label>
+                            <div class="col-lg-8">
+                                <input type="password" class="form-control" ng-model="l.Password" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword" class="col-lg-4">Confirm Password:</label>
+                            <div class="col-lg-8">
+                                <input type="password" class="form-control" placeholder="Confirm Password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="select" class="col-lg-4">Blood Group</label>
+                            <div class="col-lg-8">
+                                <select class="form-control" ng-model="l.BloodGroup" id="select">
+                                    <option>A+</option>
+                                    <option>A-</option>
+                                    <option>B+</option>
+                                    <option>B-</option>
+                                    <option>O+</option>
+                                    <option>O-</option>
+                                    <option>AB+</option>
+                                    <option>AB-</option>
+                                </select>
+                                </div>
+                            </div>
+                                <div class="form-group">
+                                    <label class="col-lg-4">Have You Donated Before?</label>
+                                    <div class="col-lg-8 donate-toggler">
+                                        <div class="radio">
+                                            <label>
+                                                <input id="noCheck" onclick="yesnoCheck();" type="radio" name="Yes" value="No" checked>
+                                                No
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input id="yesCheck" onclick="yesnoCheck();" type="radio" name="Yes" value="Yes">
+                                                Yes
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div id="ifYes" class="donate-div" style="display:none">
+                                        <label for="inputEmail" class="col-lg-4">Last Donated On:</label>
+                                        <div class="col-lg-8">
+                                            <input type="date" class="form-control" ng-model="l.LastDonatedOn">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-8 col-lg-offset-4">
+
+                                        <button type="submit" class="btn btn-primary">SignUp</button><br />
+                                        <span>Already Have an account? </span>
+                                        <a href="/Account/LogIn">LogIn</a>
+                                    </div>
+                                </div>
+                    </fieldset>
+                </form>
+            </div>
+            
         </div>
     </div>
 
@@ -143,6 +161,28 @@
 
         }
 
+    </script>
+    <script>
+        var app = angular.module ("my-app", []) ;
+        app.controller('signUpCtrl', function ($scope, $http) {
+            $scope.signUp = function () {
+                $scope.l.UserTypeId = 2;
+                var v = $scope.l;
+                $http.post("https://localhost:44390/api/user/create", v).then(function (resp) {
+                    Swal.fire(
+                        'User Added Successfully!',
+                        'success'
+                    )
+                    window.location.href = "https://localhost:44399/Account/LogIn";
+                }, function (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong'
+                    });
+                });
+            };
+        });
     </script>
 
 }
