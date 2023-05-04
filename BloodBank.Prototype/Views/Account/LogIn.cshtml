@@ -4,39 +4,87 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
+<div class="row" ng-app="my-app">
     <div class="col-md-6 col-md-offset-3">
         <div class="well bs-component">
-            <form class="form-horizontal" method="post">
-                <fieldset>
-                    <legend>LogIn</legend>
-                    <div class="form-group">
-                        <label for="inputEmail" class="col-lg-2 control-label">User</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" name="Email" placeholder="Email or UserName">
-                            @*<span class="text-danger">@Html.ValidationMessage("Email")</span>*@
+            <div ng-controller="loginCtrl">
+                <form class="form-horizontal" ng-submit="login()" method="post">
+                    <fieldset>
+                        <legend>LogIn</legend>
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-lg-2 control-label">User</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" ng-model="l.Uname" placeholder="Email or UserName">
+                                @*<span class="text-danger">@Html.ValidationMessage("Email")</span>*@
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword" class="col-lg-2 control-label">Password</label>
-                        <div class="col-lg-10">
-                            <input type="password" class="form-control" name="Password"  placeholder="Password">
-                            @*<span class="text-danger">@Html.ValidationMessage("Password")</span>*@
+                        <div class="form-group">
+                            <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+                            <div class="col-lg-10">
+                                <input type="password" class="form-control" ng-model="l.Pass" placeholder="Password">
+                                @*<span class="text-danger">@Html.ValidationMessage("Password")</span>*@
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-10 col-lg-offset-2">
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
 
-                            @*<button type="submit" class="btn btn-primary">LogIn</button><br />*@
-                            <a class="btn btn-primary" href="/Account/Dashboard">LogIn</a>
-                            <span>Don't Have an account? </span>
-                            <a href="/Account/SignUp">Sign Up</a>
+                                @*<button type="submit" class="btn btn-primary">LogIn</button><br />*@
+                                <button type="submit" class="btn btn-primary">LogIn</button><br />
+                                <span>Don't Have an account? </span>
+                                <a href="/Account/SignUp">Sign Up</a>
+                            </div>
                         </div>
-                    </div>
-                </fieldset>
-            </form>
+                    </fieldset>
+                </form>
+            </div>
         </div>
     </div>
 
 </div>
+@section scripts {
+    <script>
+        var app = angular.module("my-app", []);
+
+        //app.factory('interceptor', [function () {
+        //    var interceptor = {
+        //        request: function (config) {
+        //            config.headers.Authorization = localStorage.getItem("tkey");
+        //            debugger;
+        //            return config;
+        //        },
+        //        response: function (response) {
+        //            debugger;
+        //            return response;
+        //        }
+        //    };
+        //    return interceptor;
+        //}]);
+
+        //app.config(function ($httpProvider) {
+        //    $httpProvider.interceptors.push('interceptor');
+        //});
+
+        app.controller('loginCtrl', function ($scope, $http) {
+            $scope.login = function () {
+                var v = $scope.l;
+                $http.post("https://localhost:44390/api/login", v).then(function (resp) {
+                    localStorage.setItem("tkey", resp.data.TKey);
+                    localStorage.setItem("Uname", resp.data.UserID);
+                    window.location.href = "https://localhost:44399/Account/Dashboard";
+                }, function (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Invalid UserName or Password'
+                    });
+                });
+
+
+            };
+        });
+
+    </script>
+
+
+    }
 

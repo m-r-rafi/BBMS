@@ -60,7 +60,7 @@ namespace DAL.Repo
 
         public bool Authenticate(string uname, string password)
         {
-            var data = db.Users.FirstOrDefault(u => u.UserName.Equals(uname) && password.Equals(password));
+            var data = db.Users.FirstOrDefault(u => (u.UserName.Equals(uname) || u.Email.Equals(uname)) && password.Equals(password));
             if (data != null) return true;
             return false;
         }

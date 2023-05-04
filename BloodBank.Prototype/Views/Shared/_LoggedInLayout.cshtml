@@ -32,10 +32,17 @@
                     <a href="#">Chat History</a>
                 </li>
             </ul>
-
-            <ul class="list-unstyled CTAs">
-                <li><a href="#" class="article">LogOut</a></li>
-            </ul>
+            <div ng-app="my-app">
+                <div ng-controller="logoutCtrl">
+                    <form ng-submit="logout()">
+                        <ul class="list-unstyled CTAs">
+                            <li><button type="submit" class="btn btn-primary article">LogOut</button></li>
+                        </ul>
+                    </form>
+                    
+                </div>
+            </div>
+            
         </nav>
 
         <!-- Page Content Holder -->
@@ -60,10 +67,10 @@
                                 <ul class="nav navbar-nav navbar-right">
                                     <li class="dropdown open">
                                         <button role="button" type="button" class="btn btn-primary btn-lg btn-block" data-toggle="dropdown" aria-expanded="false">Welcome Rafi <span class="caret"></span></button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li><a href="#">Profile</a></li>
-                                                <li><a href="#">Change Password</a></li>
-                                            </ul>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Profile</a></li>
+                                            <li><a href="#">Change Password</a></li>
+                                        </ul>
                                 </ul>
                             </div>
                         </div>
@@ -73,14 +80,15 @@
                     <div class="container">
                         @RenderBody()
                     </div>
-                    
+
                 </div>
             </div>
-            
 
-            
+
+
         </div>
-
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
         <script>
@@ -89,6 +97,41 @@
                     $("#sidebar").toggleClass("active");
                     $(this).toggleClass("active");
                 });
+            });
+            var app = angular.module("my-app", []);
+
+            app.factory('interceptor', [function () {
+                var interceptor = {
+                    request: function (config) {
+                        config.headers.Authorization = localStorage.getItem("tkey");
+                        return config;
+                    },
+                    response: function (response) {
+                        return response;
+                    }
+                };
+                return interceptor;
+            }]);
+
+            app.config(function ($httpProvider) {
+                $httpProvider.interceptors.push('interceptor');
+            });
+
+            app.controller('logoutCtrl', function ($scope, $http) {
+                $scope.logout = function () {
+                    $http.get("https://localhost:44390/api/logout").then(function (resp) {
+                        localStorage.clear();
+                        window.location.href = "https://localhost:44399/Account/LogIn";
+                    }, function (err) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Something went wrong'
+                        });
+                    });
+
+
+                };
             });
         </script>
         @RenderSection("scripts", required: false)
