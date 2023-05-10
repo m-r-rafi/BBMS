@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Repo
 {
-    internal class UserRepo:BaseRepo, IUserRepo<User, int, bool>, IAuth<bool>
+    internal class UserRepo:BaseRepo, IUserRepo<User, int,DateTime ,bool>, IAuth<User>
     {
         public List<User> Get()
         {
@@ -58,11 +58,34 @@ namespace DAL.Repo
 
         }
 
-        public bool Authenticate(string uname, string password)
+        public bool IsEligibleUpdate(int id, DateTime date)
+        {
+            var user = (from u in db.Users
+                        where u.Id == id
+                        select u).FirstOrDefault();
+            if (user == null) return false;
+            if (date < user.LastDonatedOn) return false;
+            var Date = date - user.LastDonatedOn;
+            var month = Date.TotalDays / 30;
+            if (month < 4) return false;
+            try
+            {
+
+                user.LastDonatedOn = date;
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public User Authenticate(string uname, string password)
         {
             var data = db.Users.FirstOrDefault(u => (u.UserName.Equals(uname) || u.Email.Equals(uname)) && password.Equals(password));
-            if (data != null) return true;
-            return false;
+            return data;
         }
+
     }
 }

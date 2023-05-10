@@ -11,6 +11,7 @@ namespace BLL.DTOs
         public string TKey { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? ExpiredAt { get; set; }
-        public string UserID { get; set; }
+        public int UserID { get; set; }
+        public string Uname { get; set; }
     }
 }

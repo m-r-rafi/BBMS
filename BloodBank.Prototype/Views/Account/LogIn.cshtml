@@ -69,7 +69,8 @@
                 var v = $scope.l;
                 $http.post("https://localhost:44390/api/login", v).then(function (resp) {
                     localStorage.setItem("tkey", resp.data.TKey);
-                    localStorage.setItem("Uname", resp.data.UserID);
+                    localStorage.setItem("UserID", resp.data.UserID);
+                    localStorage.setItem("Uname", resp.data.Uname);
                     window.location.href = "https://localhost:44399/Account/Dashboard";
                 }, function (err) {
                     Swal.fire({

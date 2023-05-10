@@ -32,17 +32,17 @@
                     <a href="#">Chat History</a>
                 </li>
             </ul>
-            <div ng-app="my-app">
+            @*<div ng-app="my-app">
                 <div ng-controller="logoutCtrl">
                     <form ng-submit="logout()">
                         <ul class="list-unstyled CTAs">
                             <li><button type="submit" class="btn btn-primary article">LogOut</button></li>
                         </ul>
                     </form>
-                    
+
                 </div>
-            </div>
-            
+            </div>*@
+
         </nav>
 
         <!-- Page Content Holder -->
@@ -98,41 +98,41 @@
                     $(this).toggleClass("active");
                 });
             });
-            var app = angular.module("my-app", []);
+            //var app = angular.module("my-app", []);
 
-            app.factory('interceptor', [function () {
-                var interceptor = {
-                    request: function (config) {
-                        config.headers.Authorization = localStorage.getItem("tkey");
-                        return config;
-                    },
-                    response: function (response) {
-                        return response;
-                    }
-                };
-                return interceptor;
-            }]);
+            //app.factory('interceptor', [function () {
+            //    var interceptor = {
+            //        request: function (config) {
+            //            config.headers.Authorization = localStorage.getItem("tkey");
+            //            return config;
+            //        },
+            //        response: function (response) {
+            //            return response;
+            //        }
+            //    };
+            //    return interceptor;
+            //}]);
 
-            app.config(function ($httpProvider) {
-                $httpProvider.interceptors.push('interceptor');
-            });
+            //app.config(function ($httpProvider) {
+            //    $httpProvider.interceptors.push('interceptor');
+            //});
 
-            app.controller('logoutCtrl', function ($scope, $http) {
-                $scope.logout = function () {
-                    $http.get("https://localhost:44390/api/logout").then(function (resp) {
-                        localStorage.clear();
-                        window.location.href = "https://localhost:44399/Account/LogIn";
-                    }, function (err) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Something went wrong'
-                        });
-                    });
+            //app.controller('logoutCtrl', function ($scope, $http) {
+            //    $scope.logout = function () {
+            //        $http.get("https://localhost:44390/api/logout").then(function (resp) {
+            //            localStorage.clear();
+            //            window.location.href = "https://localhost:44399/Account/LogIn";
+            //        }, function (err) {
+            //            Swal.fire({
+            //                icon: 'error',
+            //                title: 'Error',
+            //                text: 'Something went wrong'
+            //            });
+            //        });
 
 
-                };
-            });
+            //    };
+            //});
         </script>
         @RenderSection("scripts", required: false)
     </div>

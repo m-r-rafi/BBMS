@@ -11,7 +11,7 @@ namespace DAL
 {
     public class DataAccessFactory
     {
-        public static IUserRepo<User, int, bool> UserData()
+        public static IUserRepo<User, int,DateTime ,bool> UserData()
         {
             return new UserRepo();
         }
@@ -23,7 +23,7 @@ namespace DAL
         {
             return new TokenRepo();
         }
-        public static IAuth<bool> AuthData()
+        public static IAuth<User> AuthData()
         {
             return new UserRepo();
         }

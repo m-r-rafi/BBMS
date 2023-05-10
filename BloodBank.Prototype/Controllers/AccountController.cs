@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BloodBank.Prototype.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,7 +16,8 @@ namespace BloodBank.Prototype.Controllers
         }
         public ActionResult SignUp()
         {
-            return View();
+            SignUpModel model = new SignUpModel();
+            return View(model);
         }
         public ActionResult Dashboard()
         {

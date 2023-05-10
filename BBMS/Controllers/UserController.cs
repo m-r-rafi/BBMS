@@ -1,4 +1,6 @@
-﻿using BLL.DTOs;
+﻿using BBMS.Auth;
+using BBMS.Models;
+using BLL.DTOs;
 using BLL.Services;
 using System;
 using System.Collections.Generic;
@@ -83,6 +85,7 @@ namespace BBMS.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+        [Logged]
         [HttpGet]
         [Route("api/user/iseligible/{id}")]
         public HttpResponseMessage IsEligible(int id)
@@ -91,6 +94,21 @@ namespace BBMS.Controllers
             {
                 var data = UserService.IsEligible(id);
                 return Request.CreateResponse(HttpStatusCode.OK, data);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+        [Logged]
+        [HttpPost]
+        [Route("api/user/iseligibleupdate")]
+        public HttpResponseMessage IsEligibleUpdate(EligibleUpdateModel updateModel)
+        {
+            try
+            {
+                var res = UserService.IsEligibleUpdate(updateModel.Id,updateModel.Date);
+                return Request.CreateResponse(HttpStatusCode.OK, res);
             }
             catch (Exception ex)
             {

@@ -3,25 +3,41 @@
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_LoggedInLayout.cshtml";
 }
-<h3>My Status</h3>
-<hr />
-<form class="form-horizontal" method="post">
-    <div class="form-group">
-        <label for="inputEmail" class="col-lg-2 control-label">Is Eligible</label>
-        <div class="col-lg-10">
-            <label>YES</label>
+<div ng-app="my-app">
+
+    <div ng-controller="logoutCtrl">
+        <form ng-submit="logout()">
+            <ul class="list-unstyled CTAs">
+                <li><button type="submit" class="btn btn-primary article">LogOut</button></li>
+            </ul>
+        </form>
+
+    </div>
+    <h3>My Status</h3>
+    <hr />
+    <div ng-controller="eligibleCtrl">
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-2 control-label">Is Eligible:</label>
+                <div class="col-lg-10">
+                    <label class="form-control">{{eligible ? "Yes" : "No"}}</label>
+                </div>
+            </div>
+    </div>
+
+    <div id="LastDonate" class="form-group">
+        <div ng-controller="eligibleUpdateCtrl">
+            <form class="form-horizontal" ng-submit="eligibleUpdate()" method="post">
+                <label for="inputEmail" class="col-lg-2 control-label">Last Donated On:</label>
+                <div class="col-lg-4">
+                    <input type="date" ng-model="l.Date" class="form-control" name="Dob">
+                </div>
+                <div class="col-lg-6">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="form-group">
-        <label for="inputEmail" class="col-lg-2 control-label">Last Donated On:</label>
-        <div class="col-lg-4">
-            <input type="date" class="form-control" name="Dob">
-        </div>
-        <div class="col-lg-6">
-            <button class="btn btn-primary" type="submit">Save</button>
-        </div>
-    </div>
-</form>
+
 <h3>History</h3>
 <hr />
 <ul class="nav nav-tabs">
@@ -31,7 +47,7 @@
 <div class="tab-content">
     <div class="tab-pane fade active in" id="donate">
         <br />
-        
+
     </div>
     <div class="tab-pane fade" id="receive">
         <br />
@@ -39,4 +55,83 @@
     </div>
 </div>
 
+@section scripts {
+    <script>
+        var app = angular.module("my-app", []);
+        app.factory('interceptor', [function () {
+                var interceptor = {
+                    request: function (config) {
+                        config.headers.Authorization = localStorage.getItem("tkey");
+                        return config;
+                    },
+                    response: function (response) {
+                        return response;
+                    }
+                };
+                return interceptor;
+            }]);
+
+            app.config(function ($httpProvider) {
+                $httpProvider.interceptors.push('interceptor');
+            });
+         app.controller('logoutCtrl', function ($scope, $http) {
+                $scope.logout = function () {
+                    $http.get("https://localhost:44390/api/logout").then(function (resp) {
+                        localStorage.clear();
+                        window.location.href = "https://localhost:44399/Account/LogIn";
+                    }, function (err) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Something went wrong'
+                        });
+                    });
+
+
+                };
+            });
+        app.controller('eligibleCtrl', function ($scope, $http) {
+                var userId = localStorage.getItem("UserID");
+                //alert("OK");
+                $http.get("https://localhost:44390/api/user/iseligible/" + userId).then(function (resp) {
+                    $scope.eligible = resp.data;
+                    var element = document.getElementById('LastDonate');
+                    if ($scope.eligible) {
+                        element.style.display = 'block';
+                    }
+                    else element.style.display = 'none';
+                }, function (err) {
+                    $scope.msg = err.data.Msg;
+                });
+
+        });
+        app.controller('eligibleUpdateCtrl', function ($scope, $http) {
+            $scope.eligibleUpdate = function () {
+                $scope.l.Id = localStorage.getItem("UserID");
+                var v = $scope.l;
+                $http.post("https://localhost:44390/api/user/iseligibleupdate", v).then(function (resp) {
+                    if (resp.data) {
+                        location.reload();
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Something went wrong'
+                        });
+                    }
+                }, function (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Something went wrong'
+                    });
+                });
+
+
+            };
+        });
+
+    </script>
+    }
 
