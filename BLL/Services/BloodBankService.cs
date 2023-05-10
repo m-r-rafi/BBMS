@@ -32,6 +32,13 @@ namespace BLL.Services
         {
             return DataAccessFactory.BloodBankData().Delete(id);
         }
+        public static int AvailableBlood(string bloodName)
+        {
+            var blood = (from b in Get()
+                         where b.BloodName == bloodName
+                         select b).FirstOrDefault();
+            return blood.Qty;
+        }
         static List<BloodBankDTO> Convert(List<BloodBank> bank)
         {
             var data = new List<BloodBankDTO>();
@@ -61,5 +68,7 @@ namespace BLL.Services
 
             };
         }
+
+        
     }
 }

@@ -36,6 +36,23 @@ namespace BLL.Services
         {
             return Convert(DataAccessFactory.RecieveBloodData().GetByUserId(id));
         }
+        public static bool RequestBlood(int userId, string bloodName, int bags)
+        {
+            var user = DataAccessFactory.UserData().Get(userId);
+            var blood = (from b in DataAccessFactory.BloodBankData().Get()
+                         where b.BloodName == bloodName
+                         select b).FirstOrDefault();
+            if (blood.Qty < bags) return false;
+            RecieveBloodDTO objToSave = new RecieveBloodDTO()
+            {
+                BloodId = blood.Id,
+                Qty = bags,
+                RecievedOn = DateTime.Now,
+                UserID = user.Id,
+                StatusId = 1
+            };
+            return Create(objToSave);
+        }
         static List<RecieveBloodDTO> Convert(List<RecieveBlood> recieve)
         {
             var data = new List<RecieveBloodDTO>();
@@ -70,5 +87,7 @@ namespace BLL.Services
                 UserID = recieve.UserID,
             };
         }
+
+        
     }
 }

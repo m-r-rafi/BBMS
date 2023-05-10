@@ -45,6 +45,11 @@ namespace DAL.Repo
             var history = (from h in db.DonateBloods
                            where h.UserID == id
                            select h).ToList();
+            foreach(var h in history)
+            {
+                h.StatusSetting = db.StatusSettings.FirstOrDefault(s => s.Id == h.StatusId);
+                h.BloodBank = db.BloodBanks.FirstOrDefault(b => b.Id == h.BloodId);
+            }
             return history;
         }
     }

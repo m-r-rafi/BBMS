@@ -20,5 +20,7 @@ namespace BLL.DTOs
         public int BloodId { get; set; }
         [Required]
         public int StatusId { get; set; }
+        public BloodBankDTO BloodBank { get; set; }
+        public StatusSettingDTO StatusSetting { get; set; }
     }
 }

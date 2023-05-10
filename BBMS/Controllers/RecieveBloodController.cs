@@ -1,4 +1,5 @@
 ﻿using BBMS.Auth;
+using BBMS.Models;
 using BLL.DTOs;
 using BLL.Services;
 using System;
@@ -7,12 +8,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace BBMS.Controllers
 {
+    [EnableCors("*", "*", "*")]
+    [Logged]
     public class RecieveBloodController : ApiController
     {
-        [Logged]
         [Route("api/recieveblood")]
         [HttpGet]
         public HttpResponseMessage AllReceive()
@@ -41,7 +44,6 @@ namespace BBMS.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
-        [Logged]
         [HttpPost]
         [Route("api/recieveblood/create")]
         public HttpResponseMessage Create(RecieveBloodDTO recieveblood)
@@ -91,6 +93,20 @@ namespace BBMS.Controllers
             try
             {
                 var data = RecieveBloodService.GetByUserId(id);
+                return Request.CreateResponse(HttpStatusCode.OK, data);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+        [HttpPost]
+        [Route("api/recieveblood/requestblood")]
+        public HttpResponseMessage RequestBlood(RequestBloodModel model)
+        {
+            try
+            {
+                bool data = RecieveBloodService.RequestBlood(model.UserId, model.BloodName, model.Bags);
                 return Request.CreateResponse(HttpStatusCode.OK, data);
             }
             catch (Exception ex)

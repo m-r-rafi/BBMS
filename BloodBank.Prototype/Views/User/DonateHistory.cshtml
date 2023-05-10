@@ -1,0 +1,213 @@
+﻿
+@{
+    ViewBag.Title = "DonateHistory";
+    Layout = "~/Views/Shared/_LoggedInLayout.cshtml";
+}
+
+<h2>DonateHistory</h2>
+<div ng-app="my-app">
+    
+        @*<div class="form-group">
+            <label for="select" class="col-lg-2 control-label">Selects</label>
+            <div class="col-lg-3">
+                <select class="form-control" id="select">
+                    <option>--Select--</option>
+                    <option>Requested</option>
+                    <option>Accepted</option>
+                    <option>Rejected</option>
+                    <option>Confirmed</option>
+                </select>
+            </div>
+        </div>
+        <br />
+        <br />*@
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#Req" data-toggle="tab" aria-expanded="true">Requested</a></li>
+        <li class=""><a href="#Acc" data-toggle="tab" aria-expanded="false">Accepted</a></li>
+        <li class=""><a href="#Rej" data-toggle="tab" aria-expanded="false">Rejected</a></li>
+        <li class=""><a href="#Cmp" data-toggle="tab" aria-expanded="false">Completed</a></li>
+    </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active in" id="Req">
+                <br />
+                <div ng-controller="ReqCtrl">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Blood Group</th>
+                                <th>Bags</th>
+                                <th>Status</th>
+                                <th>StatusOn</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="h in history">
+                                <td>{{h.Id}}</td>
+                                <td>{{h.BloodBank.BloodName}}</td>
+                                <td>{{h.Qty}}</td>
+                                <td>{{h.StatusSetting.StatusName}}</td>
+                                <td>{{h.DonatedOn}}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+                <div class="tab-pane fade" id="Acc">
+                    <br />
+                    <div ng-controller="AccCtrl">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Blood Group</th>
+                                    <th>Bags</th>
+                                    <th>Status</th>
+                                    <th>StatusOn</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="h in history">
+                                    <td>{{h.Id}}</td>
+                                    <td>{{h.BloodBank.BloodName}}</td>
+                                    <td>{{h.Qty}}</td>
+                                    <td>{{h.StatusSetting.StatusName}}</td>
+                                    <td>{{h.DonatedOn}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="Rej">
+                    <br />
+                    <div ng-controller="RejCtrl">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Blood Group</th>
+                                    <th>Bags</th>
+                                    <th>Status</th>
+                                    <th>StatusOn</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="h in history">
+                                    <td>{{h.Id}}</td>
+                                    <td>{{h.BloodBank.BloodName}}</td>
+                                    <td>{{h.Qty}}</td>
+                                    <td>{{h.StatusSetting.StatusName}}</td>
+                                    <td>{{h.DonatedOn}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="Cmp">
+                    <br />
+                    <div ng-controller="CmpCtrl">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Blood Group</th>
+                                    <th>Bags</th>
+                                    <th>Status</th>
+                                    <th>StatusOn</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="h in history">
+                                    <td>{{h.Id}}</td>
+                                    <td>{{h.BloodBank.BloodName}}</td>
+                                    <td>{{h.Qty}}</td>
+                                    <td>{{h.StatusSetting.StatusName}}</td>
+                                    <td>{{h.DonatedOn}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+</div>
+@section scripts {
+    <script>
+        var app = angular.module("my-app", []);
+        app.factory('interceptor', [function () {
+            var interceptor = {
+                request: function (config) {
+                    config.headers.Authorization = localStorage.getItem("tkey");
+                    return config;
+                },
+                response: function (response) {
+                    return response;
+                }
+            };
+            return interceptor;
+        }]);
+
+        app.config(function ($httpProvider) {
+            $httpProvider.interceptors.push('interceptor');
+        });
+        app.controller('ReqCtrl', function ($scope, $http) {
+            var userId = localStorage.getItem("UserID");
+            var v = { Id: userId, StatusId: 1};
+            $http.post("https://localhost:44390/api/donateblood/history/", v).then(function (resp) {
+                    $scope.history = resp.data;
+                }, function (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Something went wrong'
+                    });
+                });
+        });
+        app.controller('AccCtrl', function ($scope, $http) {
+            var userId = localStorage.getItem("UserID");
+            var v = { Id: userId, StatusId: 2 };
+            $http.post("https://localhost:44390/api/donateblood/history/",v).then(function (resp) {
+                $scope.history = resp.data;
+            }, function (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Something went wrong'
+                });
+            });
+        });
+        app.controller('RejCtrl', function ($scope, $http) {
+            var userId = localStorage.getItem("UserID");
+            var v = { Id: userId, StatusId: 3 };
+            $http.post("https://localhost:44390/api/donateblood/history/",v).then(function (resp) {
+                $scope.history = resp.data;
+            }, function (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Something went wrong'
+                });
+            });
+        });
+        app.controller('CmpCtrl', function ($scope, $http) {
+            var userId = localStorage.getItem("UserID");
+            var v = { Id: userId, StatusId: 4 };
+                $http.post("https://localhost:44390/api/donateblood/history/",v).then(function (resp) {
+                    $scope.history = resp.data;
+                }, function (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Something went wrong'
+                    });
+                });
+        });
+    </script>
+}

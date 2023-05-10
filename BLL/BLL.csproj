@@ -46,6 +46,7 @@
     <Compile Include="DTOs\ChatDTO.cs" />
     <Compile Include="DTOs\DonateBloodDTO.cs" />
     <Compile Include="DTOs\RecieveBloodDTO.cs" />
+    <Compile Include="DTOs\StatusSettingDTO.cs" />
     <Compile Include="DTOs\TokenDTO.cs" />
     <Compile Include="DTOs\UserDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
