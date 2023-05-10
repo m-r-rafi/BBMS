@@ -36,6 +36,10 @@ namespace BLL.Services
         {
             return DataAccessFactory.UserData().IsEligible(id);
         }
+        public static bool IsEligibleUpdate(int id, DateTime date)
+        {
+            return DataAccessFactory.UserData().IsEligibleUpdate(id,date);
+        }
         static List<UserDTO> Convert(List<User> categories)
         {
             var data = new List<UserDTO>();

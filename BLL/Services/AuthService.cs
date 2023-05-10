@@ -14,7 +14,7 @@ namespace BLL.Services
         public static TokenDTO Authenticate(string uname, string pass)
         {
             var res = DataAccessFactory.AuthData().Authenticate(uname, pass);
-            if (res)
+            if (res != null)
             {
                 var token = new Token() {
                     UserID = uname,
@@ -24,7 +24,10 @@ namespace BLL.Services
                 var ret = DataAccessFactory.TokenData().Insert(token);
                 if(ret != null)
                 {
-                    return Convert(ret);
+                    var resDTO = Convert(ret);
+                    resDTO.UserID = res.Id;
+                    resDTO.Uname = res.UserName;
+                    return resDTO;
                 }
 
             }
@@ -56,7 +59,7 @@ namespace BLL.Services
                 CreatedAt = token.CreatedAt,
                 ExpiredAt = token.ExpiredAt,
                 TKey = token.TKey,
-                UserID = token.UserID
+                UserID = 0
             };
         }
 
