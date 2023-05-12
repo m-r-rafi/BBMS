@@ -44,6 +44,20 @@ namespace BBMS.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+        [HttpGet]
+        [Route("api/recieveblood/getallbystatus/{id}")]
+        public HttpResponseMessage GetByStatus(int id)
+        {
+            try
+            {
+                var data = RecieveBloodService.GetAllByStatus(id);
+                return Request.CreateResponse(HttpStatusCode.OK, data);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
         [HttpPost]
         [Route("api/recieveblood/create")]
         public HttpResponseMessage Create(RecieveBloodDTO recieveblood)
@@ -135,6 +149,34 @@ namespace BBMS.Controllers
             try
             {
                 List<UserDTO> data = UserService.DonorList(model.Id, model.BloodName);
+                return Request.CreateResponse(HttpStatusCode.OK, data);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+        [HttpPost]
+        [Route("api/receiveblood/viewchangestatus")]
+        public HttpResponseMessage ViewChangeStatus(ChangeStatusModel model)
+        {
+            try
+            {
+                var data = RecieveBloodService.ViewChangeStatus(model.DonateId);
+                return Request.CreateResponse(HttpStatusCode.OK, data);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+        [HttpPost]
+        [Route("api/receiveblood/changestatus")]
+        public HttpResponseMessage ChangeStatus(ChangeStatusModel model)
+        {
+            try
+            {
+                bool data = RecieveBloodService.ChangeStatus(model.DonateId, (int)model.StatusId);
                 return Request.CreateResponse(HttpStatusCode.OK, data);
             }
             catch (Exception ex)

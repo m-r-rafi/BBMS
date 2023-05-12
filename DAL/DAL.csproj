@@ -149,6 +149,7 @@
     <Compile Include="Repo\ChatRepo.cs" />
     <Compile Include="Repo\DonateBloodRepo.cs" />
     <Compile Include="Repo\RecieveBloodRepo.cs" />
+    <Compile Include="Repo\StatusRepo.cs" />
     <Compile Include="Repo\TokenRepo.cs" />
     <Compile Include="Repo\UserRepo.cs" />
   </ItemGroup>

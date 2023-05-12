@@ -36,6 +36,13 @@ namespace BLL.Services
         {
             return Convert(DataAccessFactory.DonateBloodData().GetByUserId(id));
         }
+        public static List<DonateBloodDTO> GetAllByStatus(int id)
+        {
+            var donate = (from g in Get()
+                           where g.StatusId == id
+                           select g).ToList();
+            return donate;
+        }
         public static List<DonateBloodDTO> GetByUserIdStatus(int id, int statusId)
         {
             var donates = GetByUserId(id);
@@ -68,6 +75,26 @@ namespace BLL.Services
             var donate = DataAccessFactory.DonateBloodData().GetByUserId(id).OrderByDescending(d=>d.DonatedOn).FirstOrDefault();
             if (donate == null || donate.StatusId == 4 || donate.StatusId == 3) return true;
             return false;
+        }
+        public static DonateChangeStatusDTO ViewChangeStatus(int donateId)
+        {
+            var donate = Get(donateId);
+            DonateChangeStatusDTO res = new DonateChangeStatusDTO()
+            {
+                DonateUser = donate
+            };
+            res.Statuses = new List<StatusSettingDTO>();
+            if (donate.StatusId == 1)
+            {
+                res.Statuses.Add(Convert(DataAccessFactory.StatusSettingData().Get(2)));
+                res.Statuses.Add(Convert(DataAccessFactory.StatusSettingData().Get(3)));
+            }
+            else if(donate.StatusId == 2)
+            {
+                res.Statuses.Add(Convert(DataAccessFactory.StatusSettingData().Get(3)));
+                res.Statuses.Add(Convert(DataAccessFactory.StatusSettingData().Get(4)));
+            }
+            return res;
         }
         static List<DonateBloodDTO> Convert(List<DonateBlood> donate)
         {
@@ -108,8 +135,49 @@ namespace BLL.Services
                 };
                 Donate.StatusSetting = Status;
             }
+            if(donate.User != null)
+            {
+                var User = new UserDTO()
+                {
+                    Id = donate.User.Id,
+                    Address1 = donate.User.Address1,
+                    Address2 = donate.User.Address2,
+                    BloodGroup = donate.User.BloodGroup,
+                    Dob = donate.User.Dob,
+                    Email = donate.User.Email,
+                    FirstName = donate.User.FirstName,
+                    Gender = donate.User.Gender,
+                    LastDonatedOn = donate.User.LastDonatedOn,
+                    LastName = donate.User.LastName,
+                    Password = donate.User.Password,
+                    UserName = donate.User.UserName,
+                    UserTypeId = donate.User.UserTypeId
+                };
+                Donate.User = User;
+            }
 
             return Donate;
+        }
+
+        public static bool ChangeStatus(int donateId, int statusId)
+        {
+            var donate = Get(donateId);
+            donate.StatusId = statusId;
+            if(statusId == 4)
+            {
+                var user = UserService.Get(donate.UserID);
+                user.LastDonatedOn = DateTime.Now;
+                var bloodBank = BloodBankService.Get(donate.BloodId);
+                bloodBank.Qty += donate.Qty;
+                var successBloodbank = BloodBankService.Update(bloodBank);
+                var successUser = UserService.UpdateBySystem(user);
+                if (successBloodbank && successUser)
+                {
+                    return Update(donate);
+                }
+                return false;
+            }
+            return Update(donate);
         }
 
         static DonateBlood Convert(DonateBloodDTO donate)
@@ -122,6 +190,14 @@ namespace BLL.Services
                 Qty = donate.Qty,
                 StatusId = donate.StatusId,
                 UserID = donate.UserID,
+            };
+        }
+        static StatusSettingDTO Convert(StatusSetting status)
+        {
+            return new StatusSettingDTO()
+            {
+                Id = status.Id,
+                StatusName = status.StatusName
             };
         }
     }

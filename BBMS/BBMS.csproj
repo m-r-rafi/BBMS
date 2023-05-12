@@ -108,6 +108,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChangeStatusModel.cs" />
     <Compile Include="Models\DonorListModel.cs" />
     <Compile Include="Models\EligibleUpdateModel.cs" />
     <Compile Include="Models\HistoryModel.cs" />

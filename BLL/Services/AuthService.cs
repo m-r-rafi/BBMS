@@ -27,6 +27,7 @@ namespace BLL.Services
                     var resDTO = Convert(ret);
                     resDTO.UserID = res.Id;
                     resDTO.Uname = res.UserName;
+                    resDTO.UserTypeID = res.UserTypeId;
                     return resDTO;
                 }
 
