@@ -13,6 +13,7 @@ using System.Web.Http.Cors;
 namespace BBMS.Controllers
 {
     [EnableCors("*","*","*")]
+    [Logged]
     public class UserController : ApiController
     {
         [Route("api/users")]
@@ -71,6 +72,21 @@ namespace BBMS.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+        [HttpPost]
+        [Route("api/user/changePassword")]
+        public HttpResponseMessage ChangePassword(PasswordChangeModel model)
+        {
+            try
+            {
+                if(model.newPass != model.confirmPass) return Request.CreateResponse(HttpStatusCode.BadRequest,"Passwords are not the same");
+                var res = UserService.ChangePassword(model.id,model.currentPass,model.newPass);
+                return Request.CreateResponse(HttpStatusCode.OK, res);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
         [HttpGet]
         [Route("api/user/delete/{id}")]
         public HttpResponseMessage Delete(int id)
@@ -85,7 +101,7 @@ namespace BBMS.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
-        [Logged]
+        
         [HttpGet]
         [Route("api/user/iseligible/{id}")]
         public HttpResponseMessage IsEligible(int id)
@@ -100,7 +116,7 @@ namespace BBMS.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
-        [Logged]
+        
         [HttpPost]
         [Route("api/user/iseligibleupdate")]
         public HttpResponseMessage IsEligibleUpdate(EligibleUpdateModel updateModel)

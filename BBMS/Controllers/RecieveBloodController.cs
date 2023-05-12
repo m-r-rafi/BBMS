@@ -86,13 +86,13 @@ namespace BBMS.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
-        [HttpGet]
-        [Route("api/recieveblood/history/{id}")]
-        public HttpResponseMessage GetByUserId(int id)
+        [HttpPost]
+        [Route("api/recieveblood/history")]
+        public HttpResponseMessage GetByUserId(HistoryModel model)
         {
             try
             {
-                var data = RecieveBloodService.GetByUserId(id);
+                var data = RecieveBloodService.GetByUserIdStatus(model.Id, model.StatusId);
                 return Request.CreateResponse(HttpStatusCode.OK, data);
             }
             catch (Exception ex)
@@ -114,5 +114,34 @@ namespace BBMS.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+        [HttpGet]
+        [Route("api/recieveblood/isallowed/{id}")]
+        public HttpResponseMessage IsAllowedRequest(int id)
+        {
+            try
+            {
+                var data = RecieveBloodService.IsAllowedRequest(id);
+                return Request.CreateResponse(HttpStatusCode.OK, data);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+        [HttpPost]
+        [Route("api/recieveblood/donorlist")]
+        public HttpResponseMessage DonorList(DonorListModel model)
+        {
+            try
+            {
+                List<UserDTO> data = UserService.DonorList(model.Id, model.BloodName);
+                return Request.CreateResponse(HttpStatusCode.OK, data);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+
     }
 }

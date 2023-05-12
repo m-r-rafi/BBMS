@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
-    public interface IUserRepo<TYPE, ID,Date ,RET> : IRepo<TYPE, ID, RET>
+    public interface IUserRepo<TYPE, ID,Date ,RET,STR> : IRepo<TYPE, ID, RET>
     {
         RET IsEligible(ID id);
         RET IsEligibleUpdate(ID id, Date date);
+        RET ChangePassword(ID id, STR currentPass, STR newPass);
     }
 }

@@ -91,7 +91,16 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div ng-controller="allowedCtrl">
+                                    <div class="form-group" id="Message" style="display:none;">
+                                        <div class="col-lg-2"></div>
+                                        <div class="col-lg-8">
+                                            <p style="color:red">You have already raised a request</p>
+                                        </div>
+                                        <div class="col-lg-2"></div>
+                                    </div>
+                                </div>
+                                <div id="Receive" class="form-group">
 
                                     <label class="col-lg-4 control-label"></label>
                                     <div class="col-lg-8">
@@ -114,8 +123,30 @@
     }
     else
     {
-        <div>
-            Donor
+        <h2> Eligible @Model.BloodGroup Donor List</h2>
+        <div class="row" ng-app="my-app">
+            <div ng-controller="donorCtrl">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>FirstName</th>
+                            <th>LastName</th>
+                            <th>Location</th>
+                            <th>Email</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="h in donors">
+                            <td>{{h.FirstName}}</td>
+                            <td>{{h.LastName}}</td>
+                            <td>{{h.Address2}}</td>
+                            <td>{{h.Email}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
         </div>
     }
 
@@ -181,7 +212,7 @@
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Error',
-                                    text: 'Something went wrong'
+                                    text: 'No bags available'
                                 });
                             }
                         }, function (err) {
@@ -201,6 +232,43 @@
             };
 
         });
+            app.controller('allowedCtrl', function ($scope, $http) {
+                var userId = localStorage.getItem("UserID");
+                $http.get("https://localhost:44390/api/recieveblood/isallowed/" + userId).then(function (resp) {
+                    $scope.isAllowed = resp.data;
+                    var element = document.getElementById('Receive');
+                    var msg = document.getElementById('Message');
+                    if ($scope.isAllowed) {
+                        element.style.display = 'block';
+                    }
+                    else {
+                        element.style.display = 'none';
+                        msg.style.display = 'block';
+                    }
+                }, function (err) {
+                    $scope.msg = err.data.Msg;
+                    console.log($scope.msg);
+                });
+
+            });
+            app.controller('donorCtrl', function ($scope, $http) {
+                var userId = localStorage.getItem("UserID");
+                var v = { BloodName: "@Model.BloodGroup", Id: userId }
+                $http.post("https://localhost:44390/api/recieveblood/donorlist", v).then(function (resp) {
+                    $scope.donors = resp.data;
+                    if (resp.data.length == 0) {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Not found',
+                            text: 'No donors available at this moment'
+                        });
+                    }
+                }, function (err) {
+                    $scope.msg = err.data.Msg;
+                    console.log($scope.msg);
+                });
+
+            });
 
         </script>
     }

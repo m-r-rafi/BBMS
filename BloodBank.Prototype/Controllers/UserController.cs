@@ -27,5 +27,10 @@ namespace BloodBank.Prototype.Controllers
         {
             return View(model);
         }
+        public ActionResult ReceiveHistory()
+        {
+            return View();
+        }
+        
     }
 }

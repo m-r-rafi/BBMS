@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Repo
 {
-    internal class UserRepo:BaseRepo, IUserRepo<User, int,DateTime ,bool>, IAuth<User>
+    internal class UserRepo:BaseRepo, IUserRepo<User, int,DateTime ,bool,string>, IAuth<User>
     {
         public List<User> Get()
         {
@@ -29,6 +29,11 @@ namespace DAL.Repo
         public bool Update(User obj)
         {
             var users = Get(obj.Id);
+            obj.Password = users.Password;
+            obj.Gender = users.Gender;
+            obj.BloodGroup = users.BloodGroup;
+            obj.Dob = users.Dob;
+            obj.LastDonatedOn = users.LastDonatedOn;
             db.Entry(users).CurrentValues.SetValues(obj);
             return db.SaveChanges() > 0;
         }
@@ -38,6 +43,14 @@ namespace DAL.Repo
             var user = Get(id);
             db.Users.Remove(user);
             return db.SaveChanges() > 0;
+        }
+        public bool ChangePassword(int id, string currentPass, string newPass)
+        {
+            var user = Get(id);
+            if (user.Password != currentPass) return false;
+            if (newPass == null || newPass.Length < 1) return false;
+            user.Password = newPass;
+            return Update(user);
         }
 
         public bool IsEligible(int id)
@@ -81,11 +94,11 @@ namespace DAL.Repo
             }
         }
 
+
         public User Authenticate(string uname, string password)
         {
             var data = db.Users.FirstOrDefault(u => (u.UserName.Equals(uname) || u.Email.Equals(uname)) && password.Equals(password));
             return data;
         }
-
     }
 }

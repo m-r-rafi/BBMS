@@ -43,6 +43,7 @@ namespace BLL.Services
                          where b.BloodName == bloodName
                          select b).FirstOrDefault();
             if (blood.Qty < bags) return false;
+            if (!IsAllowedRequest(userId)) return false;
             RecieveBloodDTO objToSave = new RecieveBloodDTO()
             {
                 BloodId = blood.Id,
@@ -53,6 +54,21 @@ namespace BLL.Services
             };
             return Create(objToSave);
         }
+        public static bool IsAllowedRequest(int id)
+        {
+            var recieve = DataAccessFactory.RecieveBloodData().GetByUserId(id).OrderByDescending(d => d.RecievedOn).FirstOrDefault();
+            if (recieve == null || recieve.StatusId == 4 || recieve.StatusId == 3) return true;
+            return false;
+        }
+        public static List<RecieveBloodDTO> GetByUserIdStatus(int id, int statusId)
+        {
+            var receives = GetByUserId(id);
+            receives = (from d in receives
+                        where d.StatusId == statusId
+                       select d).ToList();
+            return receives;
+        }
+        
         static List<RecieveBloodDTO> Convert(List<RecieveBlood> recieve)
         {
             var data = new List<RecieveBloodDTO>();
@@ -64,7 +80,7 @@ namespace BLL.Services
         }
         static RecieveBloodDTO Convert(RecieveBlood recieve)
         {
-            return new RecieveBloodDTO()
+            var Receive = new RecieveBloodDTO()
             {
                 Id = recieve.Id,
                 BloodId = recieve.BloodId,
@@ -74,6 +90,27 @@ namespace BLL.Services
                 UserID = recieve.UserID,
 
             };
+            if(recieve.BloodBank != null)
+            {
+                var BloodBank = new BloodBankDTO()
+                {
+
+                    BloodName = recieve.BloodBank.BloodName,
+                    Id = recieve.BloodBank.Id,
+                    Qty = recieve.BloodBank.Qty
+                };
+                Receive.BloodBank = BloodBank;
+            }
+            if (recieve.StatusSetting != null)
+            {
+                var Status = new StatusSettingDTO()
+                {
+                    Id = recieve.StatusSetting.Id,
+                    StatusName = recieve.StatusSetting.StatusName
+                };
+                Receive.StatusSetting = Status;
+            }
+            return Receive;
         }
         static RecieveBlood Convert(RecieveBloodDTO recieve)
         {
@@ -87,7 +124,5 @@ namespace BLL.Services
                 UserID = recieve.UserID,
             };
         }
-
-        
     }
 }

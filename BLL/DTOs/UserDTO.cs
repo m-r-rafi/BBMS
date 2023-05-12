@@ -28,7 +28,6 @@ namespace BLL.DTOs
         public string Gender { get; set; }
         [Required]
         public System.DateTime LastDonatedOn { get; set; }
-        [Required]
         public string Password { get; set; }
         [Required]
         public string BloodGroup { get; set; }

@@ -23,5 +23,13 @@ namespace BloodBank.Prototype.Controllers
         {
             return View();
         }
+        public ActionResult EditProfile()
+        {
+            return View();
+        }
+        public ActionResult EditPassword()
+        {
+            return View();
+        }
     }
 }

@@ -40,10 +40,34 @@ namespace BLL.Services
         {
             return DataAccessFactory.UserData().IsEligibleUpdate(id,date);
         }
-        static List<UserDTO> Convert(List<User> categories)
+        public static bool ChangePassword(int id, string currentPass, string newPass)
+        {
+            return DataAccessFactory.UserData().ChangePassword(id, currentPass, newPass);
+        }
+        public static List<UserDTO> DonorList(int id, string bloodName)
+        {
+            var user = Get(id);
+            var users = Get().Where(u => u.BloodGroup == bloodName && IsEligible(u.Id)).ToList();
+            var location = user.Address2;
+            if (location.Contains(","))
+            {
+                location = location.Split(',')[0].Trim();
+            }
+            var matchedUsers = users.Where(u => u.Address2.Contains(location) && u.Id != id).ToList();
+            var ids = matchedUsers.Select(o => o.Id).ToList();
+            foreach (var v in users)
+            {
+                if (!ids.Contains(v.Id) && v.Id!=id)
+                {
+                    matchedUsers.Add(v);
+                }
+            }
+            return matchedUsers;
+        }
+        static List<UserDTO> Convert(List<User> users)
         {
             var data = new List<UserDTO>();
-            foreach (User user in categories)
+            foreach (User user in users)
             {
                 data.Add(Convert(user));
             }
