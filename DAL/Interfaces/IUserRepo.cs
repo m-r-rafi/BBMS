@@ -11,5 +11,6 @@ namespace DAL.Interfaces
         RET IsEligible(ID id);
         RET IsEligibleUpdate(ID id, Date date);
         RET ChangePassword(ID id, STR currentPass, STR newPass);
+        RET UpdateBySystem(TYPE obj);
     }
 }

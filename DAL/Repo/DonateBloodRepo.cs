@@ -12,12 +12,23 @@ namespace DAL.Repo
     {
         public List<DonateBlood> Get()
         {
-            return db.DonateBloods.ToList();
+            var donate = db.DonateBloods.ToList();
+            foreach (var h in donate)
+            {
+                h.StatusSetting = db.StatusSettings.FirstOrDefault(s => s.Id == h.StatusId);
+                h.BloodBank = db.BloodBanks.FirstOrDefault(b => b.Id == h.BloodId);
+                h.User = db.Users.FirstOrDefault(b => b.Id == h.UserID);
+            }
+            return donate;
         }
 
         public DonateBlood Get(int id)
         {
-            return db.DonateBloods.Find(id);
+            var h = db.DonateBloods.Find(id);
+            h.StatusSetting = db.StatusSettings.FirstOrDefault(s => s.Id == h.StatusId);
+            h.BloodBank = db.BloodBanks.FirstOrDefault(b => b.Id == h.BloodId);
+            h.User = db.Users.FirstOrDefault(b => b.Id == h.UserID);
+            return h;
         }
 
         public bool Insert(DonateBlood obj)

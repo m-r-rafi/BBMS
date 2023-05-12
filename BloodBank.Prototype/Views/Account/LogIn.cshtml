@@ -67,7 +67,14 @@
                     localStorage.setItem("tkey", resp.data.TKey);
                     localStorage.setItem("UserID", resp.data.UserID);
                     localStorage.setItem("Uname", resp.data.Uname);
-                    window.location.href = "https://localhost:44399/Account/Dashboard";
+                    localStorage.setItem("UserTypeID", resp.data.UserTypeID);
+                    if (resp.data.UserTypeID == 1) {
+                        window.location.href = "https://localhost:44399/Admin/Dashboard";
+                    }
+                    else {
+                        window.location.href = "https://localhost:44399/Account/Dashboard";
+                    }
+                    
                 }, function (err) {
                     Swal.fire({
                         icon: 'error',

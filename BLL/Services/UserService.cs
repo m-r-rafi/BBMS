@@ -28,6 +28,10 @@ namespace BLL.Services
         {
             return DataAccessFactory.UserData().Update(Convert(user));
         }
+        public static bool UpdateBySystem(UserDTO user)
+        {
+            return DataAccessFactory.UserData().UpdateBySystem(Convert(user));
+        }
         public static bool Delete(int id)
         {
             return DataAccessFactory.UserData().Delete(id);

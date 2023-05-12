@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BLL.DTOs
+{
+    public class DonateChangeStatusDTO
+    {
+        public DonateBloodDTO DonateUser { get; set; }
+        public List<StatusSettingDTO> Statuses { get; set; }
+    }
+}

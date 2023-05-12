@@ -1,0 +1,179 @@
+﻿
+@{
+    ViewBag.Title = "ReceiveRequests";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>ReceiveRequests</h2>
+
+<div ng-app="my-app">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#Req" data-toggle="tab" aria-expanded="true">Requested</a></li>
+        <li class=""><a href="#Acc" data-toggle="tab" aria-expanded="false">Accepted</a></li>
+        <li class=""><a href="#Rej" data-toggle="tab" aria-expanded="false">Rejected</a></li>
+        <li class=""><a href="#Cmp" data-toggle="tab" aria-expanded="false">Completed</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade active in" id="Req">
+            <br />
+            <div ng-controller="ReqCtrl">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Donor Name</th>
+                            <th>Blood Group</th>
+                            <th>Bags</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="h in history">
+                            <td>{{h.User.FirstName}}</td>
+                            <td>{{h.BloodBank.BloodName}}</td>
+                            <td>{{h.Qty}}</td>
+                            <td><a href="/Admin/ReceiveChangeStaus/{{h.Id}}">Change Status</a></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="Acc">
+            <br />
+            <div ng-controller="AccCtrl">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Donor Name</th>
+                            <th>Blood Group</th>
+                            <th>Bags</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="h in history">
+                            <td>{{h.User.FirstName}}</td>
+                            <td>{{h.BloodBank.BloodName}}</td>
+                            <td>{{h.Qty}}</td>
+                            <td><a href="/Admin/ReceiveChangeStaus/{{h.Id}}">Change Status</a></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="Rej">
+            <br />
+            <div ng-controller="RejCtrl">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Donor Name</th>
+                            <th>Blood Group</th>
+                            <th>Bags</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="h in history">
+                            <td>{{h.User.FirstName}}</td>
+                            <td>{{h.BloodBank.BloodName}}</td>
+                            <td>{{h.Qty}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="Cmp">
+            <br />
+            <div ng-controller="CmpCtrl">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Donor Name</th>
+                            <th>Blood Group</th>
+                            <th>Bags</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="h in history">
+                            <td>{{h.User.FirstName}}</td>
+                            <td>{{h.BloodBank.BloodName}}</td>
+                            <td>{{h.Qty}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        var app = angular.module("my-app", []);
+        app.factory('interceptor', [function () {
+            var interceptor = {
+                request: function (config) {
+                    config.headers.Authorization = localStorage.getItem("tkey");
+                    return config;
+                },
+                response: function (response) {
+                    return response;
+                }
+            };
+            return interceptor;
+        }]);
+
+        app.config(function ($httpProvider) {
+            $httpProvider.interceptors.push('interceptor');
+        });
+        app.controller('ReqCtrl', function ($scope, $http) {
+            $http.get("https://localhost:44390/api/recieveblood/getallbystatus/" + 1).then(function (resp) {
+                    $scope.history = resp.data;
+                }, function (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Something went wrong'
+                    });
+                });
+        });
+        app.controller('AccCtrl', function ($scope, $http) {
+            $http.get("https://localhost:44390/api/recieveblood/getallbystatus/" + 2).then(function (resp) {
+                $scope.history = resp.data;
+            }, function (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Something went wrong'
+                });
+            });
+        });
+        app.controller('RejCtrl', function ($scope, $http) {
+            $http.get("https://localhost:44390/api/recieveblood/getallbystatus/" + 3).then(function (resp) {
+                $scope.history = resp.data;
+            }, function (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Something went wrong'
+                });
+            });
+        });
+        app.controller('CmpCtrl', function ($scope, $http) {
+            $http.get("https://localhost:44390/api/recieveblood/getallbystatus/" + 4).then(function (resp) {
+                    $scope.history = resp.data;
+                }, function (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Something went wrong'
+                    });
+            });
+        });
+    </script>
+}

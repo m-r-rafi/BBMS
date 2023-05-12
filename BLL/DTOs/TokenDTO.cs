@@ -13,5 +13,6 @@ namespace BLL.DTOs
         public DateTime? ExpiredAt { get; set; }
         public int UserID { get; set; }
         public string Uname { get; set; }
+        public int UserTypeID { get; set; }
     }
 }

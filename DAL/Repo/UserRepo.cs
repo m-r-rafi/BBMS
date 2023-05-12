@@ -25,6 +25,12 @@ namespace DAL.Repo
             db.Users.Add(obj);
             return db.SaveChanges() > 0;
         }
+        public bool UpdateBySystem(User obj)
+        {
+            var user = Get(obj.Id);
+            db.Entry(user).CurrentValues.SetValues(obj);
+            return db.SaveChanges() > 0;
+        }
 
         public bool Update(User obj)
         {

@@ -43,8 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTOs\BloodBankDTO.cs" />
+    <Compile Include="DTOs\DonateChangeStatusDTO.cs" />
     <Compile Include="DTOs\ChatDTO.cs" />
     <Compile Include="DTOs\DonateBloodDTO.cs" />
+    <Compile Include="DTOs\ReceiveChangeStatusDTO.cs" />
     <Compile Include="DTOs\RecieveBloodDTO.cs" />
     <Compile Include="DTOs\StatusSettingDTO.cs" />
     <Compile Include="DTOs\TokenDTO.cs" />

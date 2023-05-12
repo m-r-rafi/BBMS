@@ -39,5 +39,9 @@ namespace DAL
         {
             return new ChatRepo();
         }
+        public static IRepo<StatusSetting, int, bool> StatusSettingData()
+        {
+            return new StatusRepo();
+        }
     }
 }
