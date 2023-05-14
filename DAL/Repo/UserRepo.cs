@@ -23,6 +23,8 @@ namespace DAL.Repo
         public bool Insert(User obj)
         {
             db.Users.Add(obj);
+            if (obj.LastDonatedOn == null || obj.LastDonatedOn == DateTime.MinValue)
+                obj.LastDonatedOn = DateTime.Now.AddYears(-10);
             return db.SaveChanges() > 0;
         }
         public bool UpdateBySystem(User obj)
@@ -103,7 +105,7 @@ namespace DAL.Repo
 
         public User Authenticate(string uname, string password)
         {
-            var data = db.Users.FirstOrDefault(u => (u.UserName.Equals(uname) || u.Email.Equals(uname)) && password.Equals(password));
+            var data = db.Users.FirstOrDefault(u => (u.UserName.Equals(uname) || u.Email.Equals(uname)) && u.Password.Equals(password));
             return data;
         }
     }

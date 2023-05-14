@@ -3,6 +3,17 @@
     ViewBag.Title = "Donate";
     Layout = "~/Views/Shared/_LoggedInLayout.cshtml";
 }
+
+<div ng-controller="logoutCtrl" style="float: right !important;">
+    <form ng-submit="logout()">
+        <ul class="list-unstyled CTAs">
+            <li><button type="submit" class="btn btn-primary article">LogOut</button></li>
+        </ul>
+    </form>
+
+</div>
+<br />
+<br />
 <h2>Donate Blood</h2>
 <div class="row" ng-app="my-app">
     <div class="col-md-6 col-md-offset-3">
@@ -57,8 +68,8 @@
 
         </div>
     </div>
-    
-    
+
+
 
 </div>
 
@@ -66,29 +77,29 @@
     <script>
         var app = angular.module("my-app", []);
         app.factory('interceptor', [function () {
-                var interceptor = {
-                    request: function (config) {
-                        config.headers.Authorization = localStorage.getItem("tkey");
-                        return config;
-                    },
-                    response: function (response) {
-                        return response;
-                    }
-                };
-                return interceptor;
+            var interceptor = {
+                request: function (config) {
+                    config.headers.Authorization = localStorage.getItem("tkey");
+                    return config;
+                },
+                response: function (response) {
+                    return response;
+                }
+            };
+            return interceptor;
         }]);
         app.config(function ($httpProvider) {
             $httpProvider.interceptors.push('interceptor');
         });
         app.controller('eligibleCtrl', function ($scope, $http) {
-                var userId = localStorage.getItem("UserID");
-                //alert("OK");
-                $http.get("https://localhost:44390/api/user/iseligible/" + userId).then(function (resp) {
-                    $scope.eligible = resp.data;
-                }, function (err) {
-                    $scope.msg = err.data.Msg;
-                    console.log($scope.msg);
-                });
+            var userId = localStorage.getItem("UserID");
+            //alert("OK");
+            $http.get("https://localhost:44390/api/user/iseligible/" + userId).then(function (resp) {
+                $scope.eligible = resp.data;
+            }, function (err) {
+                $scope.msg = err.data.Msg;
+                console.log($scope.msg);
+            });
 
         });
         app.controller('userCtrl', function ($scope, $http) {
@@ -139,7 +150,7 @@
                         //Swal.fire('Changes are not saved', '', 'info')
                     }
                 })
-                
+
 
 
             };
@@ -165,7 +176,22 @@
             });
 
         });
+        app.controller('logoutCtrl', function ($scope, $http) {
+            $scope.logout = function () {
+                $http.get("https://localhost:44390/api/logout").then(function (resp) {
+                    localStorage.clear();
+                    window.location.href = "https://localhost:44399/Account/LogIn";
+                }, function (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Something went wrong'
+                    });
+                });
 
+
+            };
+        });
     </script>
 }
 

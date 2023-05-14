@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BLL.Validators;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,8 +18,10 @@ namespace BLL.DTOs
         [Required]
         public string LastName { get; set; }
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
         [Required]
+        [AdultVerification]
         public System.DateTime Dob { get; set; }
         [Required]
         public string Address1 { get; set; }
@@ -28,6 +31,7 @@ namespace BLL.DTOs
         public string Gender { get; set; }
         [Required]
         public System.DateTime LastDonatedOn { get; set; }
+        //[RegularExpression("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$/")]
         public string Password { get; set; }
         [Required]
         public string BloodGroup { get; set; }

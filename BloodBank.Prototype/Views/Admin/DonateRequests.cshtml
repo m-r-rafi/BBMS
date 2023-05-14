@@ -4,8 +4,18 @@
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
-<h2>DonateRequests</h2>
 <div ng-app="my-app">
+    <div ng-controller="logoutCtrl" style="float: right !important;">
+        <form ng-submit="logout()">
+            <ul class="list-unstyled CTAs">
+                <li><button type="submit" class="btn btn-primary article">LogOut</button></li>
+            </ul>
+        </form>
+
+    </div>
+    <br />
+    <br />
+    <h2>DonateRequests</h2>
     <ul class="nav nav-tabs">
         <li class="active"><a href="#Req" data-toggle="tab" aria-expanded="true">Requested</a></li>
         <li class=""><a href="#Acc" data-toggle="tab" aria-expanded="false">Accepted</a></li>
@@ -113,6 +123,12 @@
 </div>
 @section scripts {
     <script>
+        $(document).ready(function () {
+            var t = localStorage.getItem("UserTypeID");
+            if (t && t != "1") {
+                window.location.href = "https://localhost:44399/Account/UnAuthorized";
+            }
+        });
         var app = angular.module("my-app", []);
         app.factory('interceptor', [function () {
             var interceptor = {
@@ -173,6 +189,22 @@
                         text: 'Something went wrong'
                     });
             });
+        });
+        app.controller('logoutCtrl', function ($scope, $http) {
+            $scope.logout = function () {
+                $http.get("https://localhost:44390/api/logout").then(function (resp) {
+                    localStorage.clear();
+                    window.location.href = "https://localhost:44399/Account/LogIn";
+                }, function (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Something went wrong'
+                    });
+                });
+
+
+            };
         });
     </script>
     }

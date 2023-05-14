@@ -66,7 +66,7 @@
                             <div>
                                 <ul class="nav navbar-nav navbar-right">
                                     <li class="dropdown open">
-                                        <button role="button" type="button" class="btn btn-primary btn-lg btn-block" data-toggle="dropdown" aria-expanded="false">Welcome Rafi <span class="caret"></span></button>
+                                        <button role="button" type="button" class="btn btn-primary btn-lg btn-block" data-toggle="dropdown" aria-expanded="false">Welcome <span id="WelcomName"></span> <span class="caret"></span></button>
                                         <ul class="dropdown-menu" role="menu">
                                             <li><a href="/Account/EditProfile">Profile</a></li>
                                             <li><a href="/Account/EditPassword">Change Password</a></li>
@@ -97,6 +97,11 @@
                     $("#sidebar").toggleClass("active");
                     $(this).toggleClass("active");
                 });
+                var t = localStorage.getItem("Uname");
+                if (t) {
+                    document.getElementById("WelcomName").innerHTML = t;
+                }
+                
             });
             //var app = angular.module("my-app", []);
 

@@ -59,6 +59,7 @@
     <Compile Include="Services\DonateBloodService.cs" />
     <Compile Include="Services\RecieveBloodService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Validators\AdultVerification.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">

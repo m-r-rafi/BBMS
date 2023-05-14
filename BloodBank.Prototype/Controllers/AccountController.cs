@@ -10,6 +10,10 @@ namespace BloodBank.Prototype.Controllers
     public class AccountController : Controller
     {
         // GET: Account
+        public ActionResult UnAuthorized()
+        {
+            return View();
+        }
         public ActionResult LogIn()
         {
             return View();

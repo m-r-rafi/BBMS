@@ -13,9 +13,9 @@ using System.Web.Http.Cors;
 namespace BBMS.Controllers
 {
     [EnableCors("*","*","*")]
-    [Logged]
     public class UserController : ApiController
     {
+        [Logged]
         [Route("api/users")]
         [HttpGet]
         public HttpResponseMessage AllUsers()
@@ -30,6 +30,7 @@ namespace BBMS.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+        [Logged]
         [HttpGet]
         [Route("api/user/{id}")]
         public HttpResponseMessage GetById(int id)
@@ -58,6 +59,7 @@ namespace BBMS.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+        [Logged]
         [HttpPost]
         [Route("api/user/update")]
         public HttpResponseMessage UpdateUser(UserDTO user)
@@ -72,6 +74,7 @@ namespace BBMS.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+        [Logged]
         [HttpPost]
         [Route("api/user/changePassword")]
         public HttpResponseMessage ChangePassword(PasswordChangeModel model)
@@ -87,6 +90,7 @@ namespace BBMS.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+        [Logged]
         [HttpGet]
         [Route("api/user/delete/{id}")]
         public HttpResponseMessage Delete(int id)
@@ -101,7 +105,7 @@ namespace BBMS.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
-        
+        [Logged]
         [HttpGet]
         [Route("api/user/iseligible/{id}")]
         public HttpResponseMessage IsEligible(int id)
@@ -116,7 +120,7 @@ namespace BBMS.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
-        
+        [Logged]
         [HttpPost]
         [Route("api/user/iseligibleupdate")]
         public HttpResponseMessage IsEligibleUpdate(EligibleUpdateModel updateModel)
