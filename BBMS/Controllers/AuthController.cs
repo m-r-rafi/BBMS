@@ -23,7 +23,6 @@ namespace BBMS.Controllers
                 var res = AuthService.Authenticate(logIn.Uname, logIn.Pass);
                 if (res != null)
                 {
-
                     return Request.CreateResponse(HttpStatusCode.OK, res);
                 }
                 else return Request.CreateResponse(HttpStatusCode.NotFound, new { Message = "User not found" });

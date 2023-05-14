@@ -1,4 +1,5 @@
 ﻿using BLL.DTOs;
+using BLL.Helper;
 using DAL;
 using DAL.Entities;
 using System;
@@ -70,6 +71,14 @@ namespace BLL.Services
                     return Update(receive);
                 }
                 return false;
+            }
+            if (statusId == 2)
+            {
+                Email.SendEmail(receive.User.Email, "BloodBank: Notification", "Your Request has been accepted. Please come to this location To Collect Blood :- SaveLives, House-720,Road-18,Agargaon");
+            }
+            if (statusId == 3)
+            {
+                Email.SendEmail(receive.User.Email, "BloodBank: Notification", "Sorry! Your Request of receiving blood has been rejected. Please contact with the administrator for further query");
             }
             return Update(receive);
         }
