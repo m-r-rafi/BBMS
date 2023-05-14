@@ -55,9 +55,10 @@ namespace BLL.Services
             var location = user.Address2;
             if (location.Contains(","))
             {
-                location = location.Split(',')[0].Trim();
+                location = location.Split(',')[0];
             }
-            var matchedUsers = users.Where(u => u.Address2.Contains(location) && u.Id != id).ToList();
+            location = location.Trim();
+            var matchedUsers = users.Where(u => u.Address2.ToLower().Contains(location.ToLower()) && u.Id != id).ToList();
             var ids = matchedUsers.Select(o => o.Id).ToList();
             foreach (var v in users)
             {

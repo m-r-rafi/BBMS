@@ -22,6 +22,9 @@ namespace DAL.Repo
 
         public bool Insert(User obj)
         {
+            var user = db.Users.FirstOrDefault(u => u.UserName == obj.UserName);
+            if (user != null)
+                return false;
             db.Users.Add(obj);
             if (obj.LastDonatedOn == null || obj.LastDonatedOn == DateTime.MinValue)
                 obj.LastDonatedOn = DateTime.Now.AddYears(-10);
