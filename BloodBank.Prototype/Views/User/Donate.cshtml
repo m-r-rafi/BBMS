@@ -4,18 +4,23 @@
     Layout = "~/Views/Shared/_LoggedInLayout.cshtml";
 }
 
-<div ng-controller="logoutCtrl" style="float: right !important;">
-    <form ng-submit="logout()">
-        <ul class="list-unstyled CTAs">
-            <li><button type="submit" class="btn btn-primary article">LogOut</button></li>
-        </ul>
-    </form>
 
-</div>
-<br />
-<br />
-<h2>Donate Blood</h2>
+
 <div class="row" ng-app="my-app">
+    <div ng-controller="logoutCtrl" style="float: right !important;">
+        <form ng-submit="logout()">
+            <ul class="list-unstyled CTAs">
+                <li><button type="submit" class="btn btn-danger article">LogOut</button></li>
+            </ul>
+        </form>
+
+    </div>
+    <br />
+    <br />
+    <h2>Donate Blood Save Lives</h2>
+    <br />
+    <br />
+
     <div class="col-md-6 col-md-offset-3">
         <div class="well bs-component">
 
@@ -58,7 +63,7 @@
                             <label class="col-lg-4 control-label">Want To Donate?</label>
                             <div class="col-lg-8">
 
-                                <button type="submit" class="btn btn-primary">Yes</button><br />
+                                <button type="submit" class="btn btn-danger">Yes</button><br />
                             </div>
 
                         </div>
@@ -75,6 +80,15 @@
 
 @section scripts {
     <script>
+        $(document).ready(function () {
+            var t = localStorage.getItem("UserTypeID");
+            if (!t) {
+                window.location.href = "https://localhost:44399/Account/LogIn";
+            }
+            if (t && t != "2") {
+                window.location.href = "https://localhost:44399/Account/UnAuthorized";
+            }
+        });
         var app = angular.module("my-app", []);
         app.factory('interceptor', [function () {
             var interceptor = {
@@ -124,7 +138,7 @@
                         $http.get("https://localhost:44390/api/donateblood/Donate/" + userId).then(function (resp) {
                             if (resp.data) {
                                 Swal.fire({
-                                    title: 'Your request has been saved successfully',
+                                    title: 'Your request is being processed, and you will soon receive a mail notification.',
                                     confirmButtonText: 'Ok',
                                 }).then((result) => {
                                     if (result.isConfirmed) {
@@ -136,7 +150,7 @@
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Error',
-                                    text: 'Something went wrong'
+                                    text: 'You are not eligible'
                                 });
                             }
                         }, function (err) {

@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewBag.Title = "UserManagement";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div ng-app="my-app">
+    <div ng-controller="logoutCtrl" style="float: right !important;">
+        <form ng-submit="logout()">
+            <ul class="list-unstyled CTAs">
+                <li><button type="submit" class="btn btn-danger article">LogOut</button></li>
+            </ul>
+        </form>
+
+    </div>
+    <br />
+    <br />
+    <h3>User Management</h3>
+    <hr />
+    <div ng-controller="userListCtrl">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>User Name</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Blood Group</th>
+                    <th>DOB</th>
+                    <th>House/Road</th>
+                    <th>Area/District</th>
+                    <th>Gender</th>
+                    <th>Last Donated</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr ng-repeat="h in users">
+                    <td>{{h.Id}}</td>
+                    <td>{{h.UserName}}</td>
+                    <td>{{h.FirstName}}</td>
+                    <td>{{h.LastName}}</td>
+                    <td>{{h.Email}}</td>
+                    <td>{{h.BloodGroup}}</td>
+                    <td>{{h.Dob}}</td>
+                    <td>{{h.Address1}}</td>
+                    <td>{{h.Address2}}</td>
+                    <td>{{h.Gender}}</td>
+                    <td>{{h.LastDonatedOn}}</td>
+                    <td><a href="/Admin/EditUser/{{h.Id}}">Edit</a></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+ @section scripts {
+    <script>
+        $(document).ready(function () {
+            var t = localStorage.getItem("UserTypeID");
+            if (!t) {
+                window.location.href = "https://localhost:44399/Account/LogIn";
+            }
+            if (t && t != "1") {
+                window.location.href = "https://localhost:44399/Account/UnAuthorized";
+            }
+        });
+        var app = angular.module("my-app", []);
+        app.factory('interceptor', [function () {
+            var interceptor = {
+                request: function (config) {
+                    config.headers.Authorization = localStorage.getItem("tkey");
+                    return config;
+                },
+                response: function (response) {
+                    return response;
+                }
+            };
+            return interceptor;
+        }]);
+
+        app.config(function ($httpProvider) {
+            $httpProvider.interceptors.push('interceptor');
+        });
+        app.controller('logoutCtrl', function ($scope, $http) {
+            $scope.logout = function () {
+                $http.get("https://localhost:44390/api/logout").then(function (resp) {
+                    localStorage.clear();
+                    window.location.href = "https://localhost:44399/Account/LogIn";
+                }, function (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Something went wrong'
+                    });
+                });
+
+
+            };
+        });
+        app.controller('userListCtrl', function ($scope, $http) {
+            $http.get("https://localhost:44390/api/users/").then(function (resp) {
+                $scope.users = resp.data;
+            }, function (err) {
+                console.log(err);
+            });
+        });
+     </script>
+ }

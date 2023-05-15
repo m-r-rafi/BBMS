@@ -18,7 +18,7 @@ namespace BBMS.Controllers
     {
         [Route("api/bloodbank")]
         [HttpGet]
-        public HttpResponseMessage AllChats()
+        public HttpResponseMessage AllBloods()
         {
             try
             {
@@ -65,6 +65,20 @@ namespace BBMS.Controllers
             try
             {
                 var res = BloodBankService.Update(bloodbank);
+                return Request.CreateResponse(HttpStatusCode.OK, res);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+        [HttpPost]
+        [Route("api/bloodbank/updatebyadmin")]
+        public HttpResponseMessage UpdateByAdmin(AdminUpdate update)
+        {
+            try
+            {
+                bool res = BloodBankService.UpdateByAdmin(update.BloodName, update.Bags);
                 return Request.CreateResponse(HttpStatusCode.OK, res);
             }
             catch (Exception ex)

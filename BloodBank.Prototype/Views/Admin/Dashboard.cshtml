@@ -4,5 +4,178 @@
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
-<h2>Dashboard</h2>
+<div ng-app="my-app">
+    <div ng-controller="logoutCtrl" style="float: right !important;">
+        <form ng-submit="logout()">
+            <ul class="list-unstyled CTAs">
+                <li><button type="submit" class="btn btn-danger article">LogOut</button></li>
+            </ul>
+        </form>
+
+    </div>
+    <br />
+    <br />
+    <h3>Manage BloodBank</h3>
+    <hr />
+    <div ng-controller="bloodListCtrl">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Blood Group</th>
+                    <th>Bags</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr ng-repeat="h in bloods">
+                    <td>{{h.Id}}</td>
+                    <td>{{h.BloodName}}</td>
+                    <td>{{h.Qty}}</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <br/>
+    <div ng-controller="updateBloodCtrl">
+        <form ng-submit="update()">
+            <div class="form-group">
+                <label for="select" class="col-lg-3 control-label">Blood Group:</label>
+                <div class="col-lg-7">
+                    <select name="BloodGroup" ng-model="l.BloodName" class="form-control" id="select">
+                        <option value="">--Select--</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-3">Bags:</label>
+                <div class="col-lg-7">
+                    <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+                    <input type="number" id="number" value="0" />
+                    <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top:6rem">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-7">
+                    <button class="btn btn-danger" type="submit">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+ </div>
+
+    @section scripts {
+        <script>
+            $(document).ready(function () {
+                var t = localStorage.getItem("UserTypeID");
+                if (!t) {
+                    window.location.href = "https://localhost:44399/Account/LogIn";
+                }
+                if (t && t != "1") {
+                    window.location.href = "https://localhost:44399/Account/UnAuthorized";
+                }
+            });
+            function increaseValue() {
+                var value = parseInt(document.getElementById('number').value, 10);
+                value = isNaN(value) ? 0 : value;
+                value++;
+                document.getElementById('number').value = value;
+            }
+
+            function decreaseValue() {
+                var value = parseInt(document.getElementById('number').value, 10);
+                value = isNaN(value) ? 0 : value;
+                value--;
+                document.getElementById('number').value = value;
+            }
+            var app = angular.module("my-app", []);
+            app.factory('interceptor', [function () {
+                var interceptor = {
+                    request: function (config) {
+                        config.headers.Authorization = localStorage.getItem("tkey");
+                        return config;
+                    },
+                    response: function (response) {
+                        return response;
+                    }
+                };
+                return interceptor;
+            }]);
+
+            app.config(function ($httpProvider) {
+                $httpProvider.interceptors.push('interceptor');
+            });
+            app.controller('logoutCtrl', function ($scope, $http) {
+                $scope.logout = function () {
+                    $http.get("https://localhost:44390/api/logout").then(function (resp) {
+                        localStorage.clear();
+                        window.location.href = "https://localhost:44399/Account/LogIn";
+                    }, function (err) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Something went wrong'
+                        });
+                    });
+
+
+                };
+            });
+            app.controller('bloodListCtrl', function ($scope, $http) {
+                $http.get("https://localhost:44390/api/bloodbank/").then(function (resp) {
+                    $scope.bloods = resp.data;
+                }, function (err) {
+                    console.log(err);
+                });
+            });
+            app.controller('updateBloodCtrl', function ($scope, $http) {
+                $scope.update = function () {
+                    $scope.l.Bags = document.getElementById("number").value;
+                    var v = $scope.l;
+
+                    $http.post("https://localhost:44390/api/bloodbank/updatebyadmin", v).then(function (resp) {
+                        if (resp.data) {
+                            Swal.fire({
+                                title: 'Blood quantity has been updated successfully',
+                                confirmButtonText: 'Ok',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            })
+                        }
+                        else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Something went wrong'
+                            });
+                        }
+                    }, function (err) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Something went wrong'
+                        });
+                    });
+
+
+                };
+            });
+
+        </script>
+    }
 

@@ -17,6 +17,19 @@ namespace BloodBank.Prototype.Controllers
         {
             return View();
         }
+        public ActionResult EditUser(int id)
+        {
+            ViewBag.Id = id;
+            return View();
+        }
+        public ActionResult EditAdminProfile()
+        {
+            return View();
+        }
+        public ActionResult EditAdminPassword()
+        {
+            return View();
+        }
         public ActionResult DonateRequests()
         {
             return View();

@@ -39,6 +39,13 @@ namespace BLL.Services
                          select b).FirstOrDefault();
             return blood.Qty;
         }
+        public static bool UpdateByAdmin(string bloodName, int bags)
+        {
+            var blood = Get().FirstOrDefault(b => b.BloodName == bloodName.Trim());
+            blood.Qty += bags;
+            if (blood.Qty < 0) return false;
+            return Update(blood);
+        }
         static List<BloodBankDTO> Convert(List<BloodBank> bank)
         {
             var data = new List<BloodBankDTO>();

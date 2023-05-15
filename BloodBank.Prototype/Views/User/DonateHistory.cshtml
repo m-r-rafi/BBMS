@@ -8,7 +8,7 @@
     <div ng-controller="logoutCtrl" style="float: right !important;">
         <form ng-submit="logout()">
             <ul class="list-unstyled CTAs">
-                <li><button type="submit" class="btn btn-primary article">LogOut</button></li>
+                <li><button type="submit" class="btn btn-danger article">LogOut</button></li>
             </ul>
         </form>
 
@@ -135,6 +135,15 @@
 </div>
 @section scripts {
     <script>
+        $(document).ready(function () {
+            var t = localStorage.getItem("UserTypeID");
+            if (!t) {
+                window.location.href = "https://localhost:44399/Account/LogIn";
+            }
+            if (t && t != "2") {
+                window.location.href = "https://localhost:44399/Account/UnAuthorized";
+            }
+        });
         var app = angular.module("my-app", []);
         app.factory('interceptor', [function () {
             var interceptor = {

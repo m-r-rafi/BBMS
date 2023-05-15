@@ -9,7 +9,7 @@
     <div ng-controller="logoutCtrl" style="float: right !important;">
         <form ng-submit="logout()">
             <ul class="list-unstyled CTAs">
-                <li><button type="submit" class="btn btn-primary article">LogOut</button></li>
+                <li><button type="submit" class="btn btn-danger article">LogOut</button></li>
             </ul>
         </form>
 
@@ -59,7 +59,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-lg-8 col-lg-offset-2">
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="submit" class="btn btn-danger">Save</button>
                             </div>
                         </div>
                     </form>
@@ -76,6 +76,9 @@
     <script>
         $(document).ready(function () {
             var t = localStorage.getItem("UserTypeID");
+            if (!t) {
+                window.location.href = "https://localhost:44399/Account/LogIn";
+            }
             if (t && t != "1") {
                 window.location.href = "https://localhost:44399/Account/UnAuthorized";
             }

@@ -136,7 +136,7 @@
                                 <div class="form-group">
                                     <div class="col-lg-8 col-lg-offset-4">
 
-                                        <button type="submit" class="btn btn-primary" ng-disabled="myForm.$invalid || myForm.$pristine">SignUp</button><br />
+                                        <button type="submit" class="btn btn-danger" ng-disabled="myForm.$invalid || myForm.$pristine">SignUp</button><br />
                                         <span>Already Have an account? </span>
                                         <a href="/Account/LogIn">LogIn</a>
                                     </div>
@@ -170,11 +170,25 @@
                 $scope.l.UserTypeId = 2;
                 var v = $scope.l;
                 $http.post("https://localhost:44390/api/user/create", v).then(function (resp) {
-                    Swal.fire(
-                        'User Added Successfully!',
-                        'success'
-                    )
-                    window.location.href = "https://localhost:44399/Account/LogIn";
+                    if (resp.data) {
+                        Swal.fire({
+                            title: 'Your account has been created successfully',
+                            confirmButtonText: 'Ok'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "https://localhost:44399/Account/LogIn";
+                            }
+                        })
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong'
+                        });
+                    }
+                    
+                    
                 }, function (err) {
                     Swal.fire({
                         icon: 'error',

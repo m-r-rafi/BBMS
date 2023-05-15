@@ -3,7 +3,7 @@
     ViewBag.Title = "Receive";
     Layout = "~/Views/Shared/_LoggedInLayout.cshtml";
 }
-    <h2>Blood Receive</h2>
+    <h2>Receive Blood</h2>
     <br />
     @if (Model == null)
     {
@@ -45,7 +45,7 @@
                             <label class="col-lg-9 control-label"></label>
                             <div class="col-lg-3">
 
-                                <button type="submit" class="btn btn-primary">Next</button><br />
+                                <button type="submit" class="btn btn-danger">Next</button><br />
                             </div>
 
                         </div>
@@ -104,7 +104,7 @@
                                         <label class="col-lg-4 control-label"></label>
                                         <div class="col-lg-8">
 
-                                            <button type="submit" class="btn btn-primary">Request</button><br />
+                                            <button type="submit" class="btn btn-danger">Request</button><br />
                                         </div>
 
                                     </div>
@@ -154,6 +154,15 @@
     {
         @section scripts {
             <script>
+                $(document).ready(function () {
+                    var t = localStorage.getItem("UserTypeID");
+                    if (!t) {
+                        window.location.href = "https://localhost:44399/Account/LogIn";
+                    }
+                    if (t && t != "2") {
+                        window.location.href = "https://localhost:44399/Account/UnAuthorized";
+                    }
+                });
         var app = angular.module("my-app", []);
         app.factory('interceptor', [function () {
                 var interceptor = {
@@ -199,7 +208,7 @@
                         $http.post("https://localhost:44390/api/recieveblood/requestblood/", v).then(function (resp) {
                             if (resp.data) {
                                 Swal.fire({
-                                    title: 'Your request has been saved successfully',
+                                    title: 'Your request is being processed, and you will soon receive a mail notification.',
                                     confirmButtonText: 'Ok',
                                 }).then((result) => {
                                     if (result.isConfirmed) {
